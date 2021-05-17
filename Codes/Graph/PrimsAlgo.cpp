@@ -1,4 +1,4 @@
-// STL implementation of Prim's algorithm for MST done from GFG
+// STL implementation of Prim's algorithm for MST 
 #include<bits/stdc++.h>
 using namespace std;
 # define INF 0x3f3f3f3f
