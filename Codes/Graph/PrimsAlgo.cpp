@@ -134,3 +134,7 @@ int main()
 
 	return 0;
 }
+
+
+
+// TC(Adding the time complexity locally . there will be a conflict in the merge .)
