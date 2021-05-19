@@ -100,8 +100,7 @@ int main()
     return 0;
 }
 
-
-
+// Greedy ALgorithm 
 // TC: O((E+v)(Log v)) = O(Elogv) approx
 
 // Sample Input and output
