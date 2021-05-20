@@ -1,148 +1,160 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 #include <iostream>
 using namespace std;
-typedef pair<int,int> ipair;
-int num =0;
+typedef pair<int, int> ipair;
+int num = 0;
 
-
-void DFN(vector<int> adj[],int v,bool *visited,int source,ipair *dfn,vector<ipair>newadj[],vector<ipair>backedge[],int parent,int *pr)
+void DFN(vector<int> adj[], int v, bool *visited, int source, ipair *dfn, vector<ipair> newadj[], vector<ipair> backedge[], int parent, int *pr)
 {
-    visited[source]=true;
-    cout<<source<<" ";
-    dfn[source]={num,source};
+    visited[source] = true;
+    cout << source << " ";
+    dfn[source] = {num, source};
     // dfn.push_back({num,source});
-    for(int U:adj[source])
+    for (int U : adj[source])
     {
-        if(!visited[U])
+        if (!visited[U])
         {
-            pr[U]=source;
-            newadj[source].push_back({U,num+1});
+            pr[U] = source;
+            newadj[source].push_back({U, num + 1});
             num++;
-            DFN(adj,v,visited,U,dfn,newadj,backedge,source,pr);
+            DFN(adj, v, visited, U, dfn, newadj, backedge, source, pr);
         }
-        else if(U!=parent && U<source)
+        else if (U != parent && U < source)
         {
-            backedge[source].push_back({U,dfn[U].first});
+            backedge[source].push_back({U, dfn[U].first});
         }
     }
-
 }
 
-void ArticulationPoint(vector<int>adj[],int v)
+void ArticulationPoint(vector<int> adj[], int v)
 {
-    vector<ipair>newadj[v];
-    vector<ipair>backedge[v];
+    vector<ipair> newadj[v];
+    vector<ipair> backedge[v];
     bool articulate[v];
 
     bool visited[v];
-    for(int i=0;i<v;i++) {visited[i]=false;articulate[i]=false;}
+    for (int i = 0; i < v; i++)
+    {
+        visited[i] = false;
+        articulate[i] = false;
+    }
     ipair dfn[v];
     int pr[v];
-    for(int i=0;i<v;i++)
+    for (int i = 0; i < v; i++)
     {
-        if(!visited[i])
+        if (!visited[i])
         {
-            int parent=-1;
-            pr[i]=-1;
-            DFN(adj,v,visited,i,dfn,newadj,backedge,parent,pr);
+            int parent = -1;
+            pr[i] = -1;
+            DFN(adj, v, visited, i, dfn, newadj, backedge, parent, pr);
             num++;
         }
     }
-// this is to debug the dfn array (v.imp)
-cout<<endl;
-    cout<<"The dfn array is : ";
-    for(int i=0;i<v;i++) cout<<dfn[i].first<<" "<<dfn[i].second<<endl;
-    cout<<endl;
-    cout<<"parent array is : ";
-    for(int i=0;i<v;i++) cout<<pr[i]<<" ";
-    cout<<endl;
+    // this is to debug the dfn array (v.imp)
+    cout << endl;
+    cout << "The dfn array is : ";
+    for (int i = 0; i < v; i++)
+        cout << dfn[i].first << " " << dfn[i].second << endl;
+    cout << endl;
+    cout << "parent array is : ";
+    for (int i = 0; i < v; i++)
+        cout << pr[i] << " ";
+    cout << endl;
 
-
-    // this to debug the new Adj array 
-    cout<<endl;
-    cout<<"New Adj array : "<<endl;
-    for(int i=0;i<v;i++)
+    // this to debug the new Adj array
+    cout << endl;
+    cout << "New Adj array : " << endl;
+    for (int i = 0; i < v; i++)
     {
-        cout<<" For i= "<<i<<" :";
-        for(auto u:newadj[i])
+        cout << " For i= " << i << " :";
+        for (auto u : newadj[i])
         {
-            cout<<"\t"<<u.first<<" "<<u.second;
+            cout << "\t" << u.first << " " << u.second;
         }
-        cout<<endl;
+        cout << endl;
     }
-// this is to debug the backedge array
-    cout<<"New backedge array : "<<endl;
-    for(int i=0;i<v;i++)
+    // this is to debug the backedge array
+    cout << "New backedge array : " << endl;
+    for (int i = 0; i < v; i++)
     {
-        cout<<" For i= "<<i<<" :";
-        for(auto u:backedge[i])
+        cout << " For i= " << i << " :";
+        for (auto u : backedge[i])
         {
-            cout<<u.first<<" "<<u.second;
+            cout << u.first << " " << u.second;
         }
-        cout<<endl;
+        cout << endl;
     }
-
-
 
     ipair copydfn[v];
-    for(int i=0;i<v;i++) copydfn[i]=dfn[i];
+    for (int i = 0; i < v; i++)
+        copydfn[i] = dfn[i];
 
     // sorting the dfn array
-    sort(dfn,dfn+v,greater<ipair>());
+    sort(dfn, dfn + v, greater<ipair>());
     int low[v];
-    for(int i=0;i<v;i++) low[i]=INT_MAX;
-    int index=v-1;
-    for(int i=0;i<v;i++)
+    for (int i = 0; i < v; i++)
+        low[i] = INT_MAX;
+    int index = v - 1;
+    for (int i = 0; i < v; i++)
     {
         int dfnum = dfn[i].first;
-        int vertex= dfn[i].second;
-        int lowChild= INT_MAX;
-        int lowBackedge=INT_MAX;
-        for(auto child:newadj[vertex])
+        int vertex = dfn[i].second;
+        int lowChild = INT_MAX;
+        int lowBackedge = INT_MAX;
+        for (auto child : newadj[vertex])
         {
-            lowChild=min(low[child.second],lowChild);
+            lowChild = min(low[child.second], lowChild);
         }
-        for(auto backed:backedge[vertex])
+        for (auto backed : backedge[vertex])
         {
-            lowBackedge= min(lowBackedge,backed.second);
+            lowBackedge = min(lowBackedge, backed.second);
         }
-        low[index]=min(dfnum,min(lowChild,lowBackedge));
+        low[index] = min(dfnum, min(lowChild, lowBackedge));
         index--;
     }
-    cout<<endl;
-    cout<<"The low array is : ";
-    for(int i=0;i<v;i++) cout<<low[i]<<" ";
-    cout<<endl;
-    for(int i=0;i<v;i++)
+    cout << endl;
+    cout << "The low array is : ";
+    for (int i = 0; i < v; i++)
+        cout << low[i] << " ";
+    cout << endl;
+    for (int i = 0; i < v; i++)
     {
-        for(auto u:newadj[i])
+        for (auto u : newadj[i])
         {
-            if((pr[i]!=-1 && copydfn[i].first<=low[u.second] )|| ( pr[i]==-1 && newadj[i].size()>=2))
+            if ((pr[i] != -1 && copydfn[i].first <= low[u.second]) || (pr[i] == -1 && newadj[i].size() >= 2))
             {
-                articulate[i]=true;
+                articulate[i] = true;
             }
         }
     }
-    cout<<" Finally the articulation vertex are : ";
-    for(int i=0;i<v;i++) if(articulate[i]) cout<<i<<" ";
+    cout << " Finally the articulation vertex are : ";
+    for (int i = 0; i < v; i++)
+        if (articulate[i])
+            cout << i << " ";
 }
 int main()
 {
-    int v,e;
-    cin>>v>>e;
-    vector<int>adj[v];
-    for(int i=0;i<e;i++)
+    int v, e;
+    cin >> v >> e;
+    vector<int> adj[v];
+    for (int i = 0; i < e; i++)
     {
-        int src,dst;
-        cin>>src>>dst;
+        int src, dst;
+        cin >> src >> dst;
         adj[src].push_back(dst);
         adj[dst].push_back(src);
     }
-    ArticulationPoint(adj,v);
+    // for(int i=0;i<v;i++)
+    // {
+    //     cout<<"i = "<<i<<endl;
+    //     for(int U:adj[i]) cout<<U<<" ";
+    //     cout<<endl;
+    // }
+    ArticulationPoint(adj, v);
     return 0;
 }
 
-
+// low [i]=lowest reachable discovery time
 
 // Sample input the user
 // 13 15
@@ -161,7 +173,7 @@ int main()
 // 9 10
 // 10 11
 // 11 12
-// 0 1 3 2 6 7 4 5 8 9 10 11 12 
+// 0 1 3 2 6 7 4 5 8 9 10 11 12
 // The dfn array is : 0 0
 // 1 1
 // 3 2
@@ -207,5 +219,5 @@ int main()
 //  For i= 11 :
 //  For i= 12 :
 
-// The low array is : 0 0 0 0 3 3 2 2 8 8 8 11 12 
+// The low array is : 0 0 0 0 3 3 2 2 8 8 8 11 12
 //  Finally the articulation vertex are : 2 3 10 11
