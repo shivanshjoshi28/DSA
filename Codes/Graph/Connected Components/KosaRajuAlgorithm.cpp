@@ -1,93 +1,88 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 #include <iostream>
 using namespace std;
-// Directed graph 
+// Directed graph
 
-void dfs(vector<int>adj[],int source,stack<int>&st,int v,bool *visited)
+void dfs(vector<int> adj[], int source, stack<int> &st, int v, bool *visited)
 {
-    visited[source]=true;
+    visited[source] = true;
     // cout<<source<<endl;
-    for(int u:adj[source])
+    for (int u : adj[source])
     {
-        if(visited[u]==false)
+        if (visited[u] == false)
         {
-            dfs(adj,u,st,v,visited);
+            dfs(adj, u, st, v, visited);
         }
     }
-    st.push(source);  //  keep the track of final ending vertex. 
+    st.push(source); //  keep the track of final ending vertex.
 }
 
-void DFS(vector<int>adj[],int source,int v,bool *visited)
+void DFS(vector<int> adj[], int source, int v, bool *visited)
 {
-    visited[source]=true;
-    cout<<source<<" ";
-    for(int u:adj[source])
+    visited[source] = true;
+    cout << source << " ";
+    for (int u : adj[source])
     {
-        if(visited[u]==false)
+        if (visited[u] == false)
         {
-            DFS(adj,u,v,visited);
+            DFS(adj, u, v, visited);
         }
     }
 }
 
-void KrukshalAlgo(vector<int>adj[],int v)
+void KrukshalAlgo(vector<int> adj[], int v)
 {
     bool visited[v];
-    stack<int>st;
-    for(int i=0;i<v;i++) visited[i]=false;
-    for(int i=0;i<v;i++) // DFS ( O(E+V))
+    stack<int> st;
+    for (int i = 0; i < v; i++)
+        visited[i] = false;
+    for (int i = 0; i < v; i++) // DFS ( O(E+V))
     {
-        if(visited[i]==false)
+        if (visited[i] == false)
         {
-            dfs(adj,i,st,v,visited);
+            dfs(adj, i, st, v, visited);
         }
     }
 
-
-
-    
-    vector<int>revadj[v];
+    vector<int> revadj[v];
     // Now we need to change the direction of the direction of the path in the graph of every vertex
-    for(int i=0;i<v;i++)
+    for (int i = 0; i < v; i++)
     {
-        for(int u:adj[i])
+        for (int u : adj[i])
         {
             revadj[u].push_back(i);
         }
     }
 
+    // now tranverse the stack element
+    for (int i = 0; i < v; i++)
+        visited[i] = false;
+    cout << "The connected components of the graph is : \n";
 
-
-
-// now tranverse the stack element 
-    for(int i=0;i<v;i++) visited[i]=false;
-    cout<<"The connected components of the graph is : \n";
-
-    while(!st.empty())
+    while (!st.empty())
     {
-        int source=st.top();
+        int source = st.top();
         st.pop();
-        if(visited[source]==false)
+        if (visited[source] == false)
         {
-            DFS(revadj,source,v,visited);
-            cout<<endl;
+            DFS(revadj, source, v, visited);
+            cout << endl;
         }
     }
 }
 int main()
 {
-    int v,e;
-    cin>>v>>e;
-    vector<int>adj[v];
+    int v, e;
+    cin >> v >> e;
+    vector<int> adj[v];
 
-
-    for(int i=0;i<e;i++)
+    for (int i = 0; i < e; i++)
     {
-        int src,dst;
-        cin>>src>>dst;
-        adj[src].push_back(dst);  // directed graph
+        int src, dst;
+        cin >> src >> dst;
+        adj[src].push_back(dst); // directed graph
     }
-    KrukshalAlgo(adj,v);
+    KrukshalAlgo(adj, v);
     return 0;
 }
 
@@ -121,14 +116,10 @@ int main()
 // 14
 // 12 13 11
 
-
-// TC ( O(E+v) + O(E) + TC(E+v))  === > 2 dfs traversal traversal 
+// TC ( O(E+v) + O(E) + TC(E+v))  === > 2 dfs traversal traversal
 // Tc ( O(E+V))
 
-
-
-
-// 2nd input and output 
+// 2nd input and output
 // 5 5
 // 0 1
 // 1 2
