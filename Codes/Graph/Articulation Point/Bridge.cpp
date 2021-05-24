@@ -23,13 +23,11 @@ void DFSUtil(vi adj[], int u, bool *visited, int *dfn, int *low, int *parent, bo
 {
     visited[u] = true;
     dfn[u] = low[u] = ++time1;
-    int children = 0;
 
     for (int V : adj[u])
     {
         if (!visited[V])
         {
-            children++;
             parent[V] = u;
             DFSUtil(adj, V, visited, dfn, low, parent, art);
 
