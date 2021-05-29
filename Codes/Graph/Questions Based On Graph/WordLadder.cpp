@@ -38,18 +38,18 @@ int WordLadder(string start, string end, set<string> &wordlist)
             {
                 string topstring = q.front();
                 q.pop();
-                for (int i = 0; i < topstring.size(); i++)
+                for (int i = 0; i < topstring.size(); i++) //O(n)             -->totally inside it take O(n*26*n)
                 {
                     string temp = topstring;
-                    for (int j = 'a'; j <= 'z'; j++)
+                    for (int j = 'a'; j <= 'z'; j++) // O(26)
                     {
                         temp[i] = j;
 
-                        if (temp.compare(topstring) == 0)
+                        if (temp.compare(topstring) == 0) // O(n)
                             continue;
-                        else if (temp.compare(end) == 0)
+                        else if (temp.compare(end) == 0) //O(n)
                             return level + 1;
-                        else if (wordlist.find(temp) != wordlist.end())
+                        else if (wordlist.find(temp) != wordlist.end()) //O(log n)
                         {
                             wordlist.erase(temp);
                             q.push(temp);
@@ -80,3 +80,6 @@ int main()
     cout << WordLadder(start, end, wordlist);
     return 0;
 }
+
+// Using the logic of BFS traversal
+// TC: O(M *n*n*26)   M- size of input worlist ,    n= size of each word(here n= max length)
