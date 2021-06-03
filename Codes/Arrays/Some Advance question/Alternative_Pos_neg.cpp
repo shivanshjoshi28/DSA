@@ -17,7 +17,7 @@ int main()
     int arr[6]={2,3,-4,-1,6,-9};
     int n=6;
     int i=0,j=n-1;
-    while(i<j)
+    while(i<=j)
     {
         if(arr[i]>0 and arr[j]<0)
         {
