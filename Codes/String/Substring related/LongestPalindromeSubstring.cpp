@@ -112,17 +112,23 @@ void dplongestPalind(string s)
         }
     }
     if (start == 0)
-        cout << "TO make full string as Palindrome " << s.length() - (end - start + 1) << " character needs to be added" << endl;
+    {
+        int add = s.length() - (end - start + 1);
+        s = s.substr(s.length() - add, add) + s;
+        // cout << "TO make * full string as Palindrome " << s.length() - (end - start + 1) << " character needs to be added" << endl;
+    }
     else
     {
-        cout << "To make full string as Palindrome " << s.length() - 1 << " character needs to be added" << endl;
+        s = s.substr(1, s.length() - 1) + s;
+        // cout << "To make full string as Palindrome " << s.length() - 1 << " character needs to be added" << endl;
     }
+    cout << s << endl;
     PrintString(s, start, end);
 }
 
 int main()
 {
-    string s = "AACECAAAA";
+    string s = "abdcecsdfgs";
     longestPalin(s); // odd even substring method O(n^2) TC with O(1) SC
     cout << endl;
     dplongestPalind(s); // dp method O(n^2) TC with O(n^2) SC

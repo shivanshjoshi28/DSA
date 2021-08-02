@@ -52,7 +52,7 @@ void Graph::primMST()
 
 	// Create a vector for keys and initialize all
 	// keys as infinite (INF)
-	vector<int> key(V, INF);
+	vector<int> key(V, INF);	
 
 	// To store parent array which in turn store MST
 	vector<int> parent(V, -1);

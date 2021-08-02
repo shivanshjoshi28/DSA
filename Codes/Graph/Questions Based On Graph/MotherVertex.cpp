@@ -43,7 +43,6 @@ int MotherVertex(vi adj[], int v)
             maybe_mother = i;
         }
     }
-
     rep(i, v)
     {
         visited[i] = false;
