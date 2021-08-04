@@ -85,7 +85,7 @@
 
 //     return 0;
 // }
-
+//taken from gfg
 // C++ program to find out whether a given graph can be
 // converted to two Cliques or not.
 #include <bits/stdc++.h>
