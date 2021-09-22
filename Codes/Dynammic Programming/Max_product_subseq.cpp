@@ -18,25 +18,23 @@ const int ninf = (int)-1e17;
 #define FOR(it, start, end) for (auto it = start; it != end; it++)
 
 
-// recursion implementation done in recursion folder folder or must be in copy
-int maxcut(int sum,int a,int b,int c)
+int recur(int arr[],int prod,int n)
 {
-    vector<int>dp(sum+1,-1);
-    dp[0]=0;
-    for(int i=1;i<=sum;i++)
-    {
-        if(i-a>=0) dp[i]=max(dp[i],dp[i-a]);
-        if(i-b>=0) dp[i]=max(dp[i],dp[i-b]);
-        if(i-c>=0) dp[i]=max(dp[i],dp[i-c]);
-        if(dp[i]!=-1) dp[i]++;
-    }
-    return dp[sum];
+    if(n==0 || prod==0) return 0;
+    int res= recur(arr,prod,n-1);
+    if(arr[n-1]<=prod)
+        res+=(1+recur(arr,prod/arr[n-1],n-1));
+    return res;
 }
+
+
+
 int main()
 {
-    boost;
-    int sum=100;
-    int a=23,b=15,c=50;
-    cout<<maxcut(sum,a,b,c);
+    // boost;
+    int arr[5]={2,3,4,6,12};
+    int prod=12;
+    int n=5;
+    cout<<recur(arr,prod,n);
     return 0;
 }
